@@ -1,0 +1,3 @@
+# git-notes
+
+Some notes and documentation on git.
