@@ -1,0 +1,148 @@
+# The index
+
+git uses the index to "stage" the next commit.
+
+## What's in the index?
+
+Differences between the working tree and the index:
+
+    $ git diff
+
+Differences between the index (staged changes) and the last commit:
+
+    $ git diff --cached
+
+    # I prefer the "staged" alias, it makes more sense:
+    $ git diff --staged
+
+The index allows you to carefully "prepare" or stage your next commit before
+saving the changes to the repo. You can use 'git add' to add only certain
+files to the next commit, but you can be even more granular:
+
+    # asks whether to add each "edit block" or not:
+    $ git add -p
+
+    # edit the patch file before adding it to the stage:
+    $ git add -e
+
+If you want to unstage changes in a file:
+
+    $ git checkout -- <path-to-file>
+
+# Forked repos, remote branches
+
+If someone has forked your repo and you need to merge or cherry-pick changes
+from them:
+
+    # add the remote repo and get its contents
+    $ git remote add <pivot> git@github.com:mamapitufo/sandbox-fork.git
+    $ git fetch <pivot>
+
+    # add a local branch to track the remote
+    $ git branch <pivot-branch> <pivot>/<remote-branch>
+
+    # ...and merge it:
+    $ git checkout <integration-branch>
+    $ git merge <pivot-branch>
+
+    # or cherry-pick what you need:
+    $ git checkout <integration-branch>
+    $ git cherry-pick <commit-id>
+
+# History
+
+ONLY REWRITE HISTORY ON CHANGES THAT HAVE NOT BEEN SHARED. Do not use rebase
+on commits that have been uploaded to a remote repo, or if there are
+forks/clones of your local repo.
+
+## Amend a commit
+
+The "amend" operator resets the previous commit and applies the changes to the
+index. If you want to change the commit message on the last commit:
+
+    $ git commit --amend
+
+If you want to add a change to the last commit:
+
+    $ vi ClassFoo.as
+    $ git add ClassFoo.as
+    $ git commit --amend
+
+## Interactive rebase
+
+Interactive rebase allows you to remove commits, edit the commit message,
+squash 2 or more commits together, reorder commits, etc.
+
+To interactively edit the last 10 commits:
+
+    $ git rebase -i HEAD~10
+
+# The reflog
+
+The reflog is version control for your branch tips. With the reflog command
+you can see and manipulate this history.
+
+    $ git reflog
+
+    # include branches and the stash
+    $ git reflog --all
+
+    # view commit information for a branch, including reflog reference
+    $ git log --walk-reflogs
+
+It can save you from a unintentional `git reset --hard HEAD~n`!
+
+## The stash
+
+The stash is a list of temporary branches/commits? that are not meant to be
+distributed. When stashing a working tree the state of the tree is saved and
+then it is reverted to HEAD.
+
+Stashed changes are not related to any branch: you can stash in feature-branch
+and apply the changes to master.
+
+    # record the state of the current working tree
+    $ git stash
+
+    # even better...
+    $ git stash save "working on foo, check bar setter, line 45"
+
+    # if you want to keep your already staged changes:
+    $ git stash save --keep-index
+
+    # list the contents of the stash
+    $ git stash list
+
+    # view a diff of stash entry "n"
+    $ git show -p  @stash{n}
+
+    # apply the most recent stashed change, and remove it from the list
+    $ git stash pop
+
+    # clear the stash list
+    $ git stash clear
+
+# Bisect
+
+    $ git bisect start
+    $ git bisect good <commit-id-for-last-known-good-commit>
+    $ git bisect bad <commit-id-for-oldest-known-bad-commit>
+    # git starts bisecting...
+    # after running your tests you mark commits as either "good"
+    $ git bisect good
+    # or "bad"
+    $ git bisect bad
+
+    # when you have found the commit that caused the bug, return to the point
+    # you were before running bisect
+    $ git bisect reset
+
+# Repo maintenance
+
+To clean your working tree:
+
+    # removes untracked files and directories:
+    $ git clean -f -d
+
+    # and files .gitignored!
+    $ git clean -x
