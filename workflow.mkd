@@ -1,15 +1,21 @@
 # Basic workflow
 
-Get a copy of a remote repo:
+You can create a local repo:
 
-    $ git clone git@github.com:mamapitufo/sandbox.git
+    $ mkdir <repo-name>
+    $ cd <repo-name>
+
+    $ git init
+
+Or you can get a copy of a remote repo:
+
+    $ git clone git@github.com:user/repo.git
 
 Stage changes for a commit:
 
-    $ echo 'ehlo there' > greeting
-    $ git add greeting
+    $ git add some/file.ext
 
-Commit changes:
+Commit staged changes:
 
     $ git commit -v
 
