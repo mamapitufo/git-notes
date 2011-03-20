@@ -1,3 +1,10 @@
 # git-notes
 
-Some notes and documentation on git.
+Some documentation and notes used for an introductory talk about Git.
+
+* concepts.mkd: Git concepts. How does it work and what happens when you
+  perform certain operations.
+* workflow.mkd: Quick reference for a basic workflow. This is not a tutorial,
+  it's almost a cheat sheet.
+* useful-commands.mkd: Some information on useful commands like rebase,
+  bisect, the reflog, the stash.
