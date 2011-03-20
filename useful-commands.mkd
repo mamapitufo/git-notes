@@ -35,7 +35,7 @@ If someone has forked your repo and you need to merge or cherry-pick changes
 from them:
 
     # add the remote repo and get its contents
-    $ git remote add <pivot> git@github.com:mamapitufo/sandbox-fork.git
+    $ git remote add <pivot> git@github.com:collaborator/git-notes.git
     $ git fetch <pivot>
 
     # add a local branch to track the remote
@@ -64,7 +64,7 @@ index. If you want to change the commit message on the last commit:
 
 If you want to add a change to the last commit:
 
-    $ vi ClassFoo.as
+    # edit ClassFoo.as
     $ git add ClassFoo.as
     $ git commit --amend
 
@@ -114,7 +114,7 @@ and apply the changes to master.
     $ git stash list
 
     # view a diff of stash entry "n"
-    $ git show -p  @stash{n}
+    $ git show -p @stash{n}
 
     # apply the most recent stashed change, and remove it from the list
     $ git stash pop
