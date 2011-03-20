@@ -1,15 +1,24 @@
 # Basic workflow
 
-You can create a local repo:
+## Create a repository
 
     $ mkdir <repo-name>
     $ cd <repo-name>
 
     $ git init
 
-Or you can get a copy of a remote repo:
+This creates a `.git` directory, which contains all of the files git needs to
+manage your repository. You usually will not manipulate the files in there
+directly.
+
+You can get a copy of a remote repo:
 
     $ git clone git@github.com:user/repo.git
+
+This will create a clone of the repository in the `repo` directory. You will
+have all the history, logs, etc.
+
+## Commit changesets
 
 Stage changes for a commit:
 
@@ -35,7 +44,9 @@ While rebasing there might be conflicts. git stops when it finds a conflict
 and allows you to fix it:
 
     $ git rebase origin master
+
     # conflict... fix it.
+    $ git mergetool
 
     $ git add <conflict files>
     $ git rebase --continue
@@ -67,6 +78,9 @@ If you want to revert a past commit:
 # Finding things out about past commits
 
     $ git log
+
+    # with diffs for each commit
+    $ git log -p
 
     # only the past "n" commits
     $ git log -n
@@ -133,12 +147,15 @@ a past commit:
 
 ## Merging branches
 
-When you are ready to merge a branch, it's better if you rebase your feature
-branch to master and then merge back to master.
+When you are ready to merge a feature branch, you can rebase it to master and
+solve the conflicts while rebasing.
 
     # rebase feature branch
     $ git checkout <branch-name>
     $ git rebase -m -p master
+
+When you are ready to merge you checkout master and then merge your feature
+branch into master.
     
     # merge into master
     $ git checkout master
