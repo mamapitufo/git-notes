@@ -1,0 +1,123 @@
+# The working tree, the index and the repository
+
+The local directory that contains all of the managed files is called the
+**working tree**.
+
+The **repository** contains, among other things, a collection of commits. It
+also includes references to certain commits, called _heads_.
+
+Unlike many other version control tools, Git does not record changes directly
+from the working tree to the repository. Before being commited to the
+repository, changes are first recorded in the **index**. This is a staging area
+where you add each individual change. When all the desired changes are staged
+they can be added to the repo in a single commit.
+
+# Repositories
+
+Your working copy of a repository is a complete repo: history, branches, etc.
+This not only means that you can have full version control even offline, but
+also that logs, branches, commit information, etc are local and fast.
+
+# Commits
+
+* a set of file contents, called blobs, which is a snapshot of the working
+  tree when the commit was made.
+* references to parent commits (usually there is only one.)
+* information about the author, date, etc.
+* a SHA1 identifier.
+
+In a Git repository history there is only one commit without any parent
+reference, the initial commit.
+
+The history is a directed acyclic graph of commits, with the references to
+parent commits pointing back in time, ultimately reaching the first commit.
+You can start from any commit and follow the parent pointers all the way back
+to that first commit. This is how history works.
+
+# Heads and HEAD
+
+A **head** is a named reference to a commit. By default repos start with only
+one head, called _master_, but a repo can have any number of heads.
+
+*HEAD* is the reference to what is currently checked out in your working tree.
+If you are working on the branch `feature` then `HEAD` points to the last
+commit in the branch history.
+
+_HEAD_ is the alias to the currently active head, _head_ is a named reference
+to a commit in the repo. This distinction is important and a common convention
+in Git documentation.
+
+# What happens when you commit?
+
+* Git creates the commit object.
+* The parent of the commit is the commit referenced by _HEAD_.
+* If you are in a branch, the branch head is changed to point to the new
+  commit.
+* _HEAD_ is updated to point to the new commit.
+
+# Naming commits
+
+There are several ways of referencing a commit in git commands:
+
+* The full SHA1 identifier of the commit object.
+* Enough characters of the commit identifier.
+* Named reference (a branch or tag name).
+* Relative from a known commit:
+    * `HEAD^` is the parent of `HEAD`.
+    * `HEAD^^` is the grand-parent of `HEAD`.
+    * `e7b20f1b~4` is the commit 4 steps back in history from `e7b20f1b`.
+
+The full list is in the [git-revisions](http://www.kernel.org/pub/software/scm/git/docs/gitrevisions.html)
+manpage.
+
+# Branches
+
+In Git a _branch_ and a _head_ are basically the same. A branch is represented
+by a head and every head represents a branch. Usually when the term "branch"
+is used, it means the head commit and the history that lead to it. When the
+term "head" is used it usually means the commit object that is referenced by
+the particular head.
+
+When you create a branch, Git creates a head that point to the commit from
+which you are branching.
+
+# What happens when you merge?
+
+Assuming you are merging the branch _feature_ into _master_:
+
+* Git identifies the common ancestor of _feature_ and _master_. Let's call
+  this _ancestor-commit_.
+* If _feature_ references _ancestor-commit_, do nothing.
+* If _master_ references _ancestor-commit_, do a **fast-forward**. 
+* Otherwise, create a diff of _ancestor-commit_ and _feature_.
+* Attempt to apply the diff to _master_.
+* If there are no conflicts, Git creates a new commit with two parents: the
+  commits referenced by _feature_ and _master_.
+* If there are no conflicts, _master_ and _HEAD_ are updated to this new
+  commit.
+* If there are conflicts, Git inserts the conflict markers in the appropriate
+  files, creates conflict files and no commit is created. The user is informed
+  of the conflict.
+
+## Resolving conflicts
+
+After resolving the conflict you add the changes to the stage and manually
+commit. Git remembers that you are in the middle of a merge and sets the
+parents of the new commit correctly. It also pre-populates the commit message
+with a note on the merge and a list of files that had conflicts.
+
+## Fast-forward merges
+
+This is an optimization. In a fast-forward merge no merge commit is created,
+Git just updates the heads.
+
+# Remote repositories
+
+TODO
+
+----
+
+# Sources
+
+* [Understanding Git Conceptually](http://www.eecs.harvard.edu/~cduan/technical/git/), by Charles Duan. 
+* [Git from the bottom up](http://www.newartisans.com/2008/04/git-from-the-bottom-up.html), by John Wiegley.
