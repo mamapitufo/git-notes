@@ -78,6 +78,8 @@ is used, it means the head commit and the history that lead to it. When the
 term "head" is used it usually means the commit object that is referenced by
 the particular head.
 
+The default branch is called `master`.
+
 When you create a branch, Git creates a head that point to the commit from
 which you are branching.
 
@@ -113,7 +115,49 @@ Git just updates the heads.
 
 # Remote repositories
 
-TODO
+Git follows a distributed model of version control. To identify remote
+repositories Git uses a **remote-specification**. A remote-specification can
+be a path on the same filesystem, a remote repo over ssh, http, etc.
+
+## Cloning a repo
+
+When you clone a repo Git performs the following steps:
+
+* It creates a local directory. The default is the name of the remote repo.
+* It initializes a repository in the new directory.
+* All the commit objects and head references are copied from the remote repo.
+* A **remote repository reference** is created (the default name is `origin`)
+  and it points to the repo that you are cloning.
+* For each head reference in the remote repo a **remote head** is created in
+  the local repo. The remote heads are named `origin/<remote-head-name>`.
+* A remote head in the local repo, corresponding to the current active head in
+  the remote repo is set to **track** it.
+
+Remote repository references and remote heads work in a similar way as local
+heads. You can rebase, merge, show specific commits, show the logs, etc.
+
+When you interact and modify a cloned repository most changes are done in your
+clone only. If you want to modify the remote repo you have to do it
+explicitly.
+
+## Fetching and rebasing vs. pulling
+
+A `pull` operation from a remote repository does a `fetch` from the remote
+repository reference, followed by a merge from the tracked branch into the
+current active local branch. This can create some unnecessary merge commits,
+which is the reason that some people are against pulling.
+
+## Pushing changes
+
+When you push to a remote repository Git does the following:
+
+* Add the new commit objects to the remote repo.
+* Updates the remote head to reference the same commit it references in the
+  local repo.
+* Updates the remote head reference in the local repo.
+
+You should only push changes that will result in a fast-forward merge on the
+remote repository. Otherwise the remote repo will have **dangling commits**.
 
 ----
 
