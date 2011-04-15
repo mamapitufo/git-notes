@@ -164,4 +164,4 @@ remote repository. Otherwise the remote repo will have **dangling commits**.
 # Sources
 
 * [Understanding Git Conceptually](http://www.eecs.harvard.edu/~cduan/technical/git/), by Charles Duan. 
-* [Git from the bottom up](http://www.newartisans.com/2008/04/git-from-the-bottom-up.html), by John Wiegley.
+* [Git from the bottom up](http://newartisans.com/2008/04/git_from_the_bottom_up/), by John Wiegley.
