@@ -35,7 +35,7 @@ When you have a set of changes that you want to push to the remote repo:
 If the remote branch is ahead of your local branch:
 
     $ git fetch origin
-    $ git rebase -m -p origin <branch-name>
+    $ git rebase -m -p origin/<branch-name>
     $ git push origin <branch-name>
 
 ## What if there is a conflict while rebasing?
@@ -43,7 +43,7 @@ If the remote branch is ahead of your local branch:
 While rebasing there might be conflicts. git stops when it finds a conflict
 and allows you to fix it:
 
-    $ git rebase origin master
+    $ git rebase origin/master
 
     # conflict... fix it.
     $ git mergetool
